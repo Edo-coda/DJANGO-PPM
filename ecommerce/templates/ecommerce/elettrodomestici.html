@@ -1,0 +1,59 @@
+{% extends 'ecommerce/common.html' %}
+
+{% block content %}
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/lg.png' %} " alt="" width="35" height="35" class="d-inline-block align-top">
+                Ecommerce Django
+            </a>
+
+            <div class="dropend">
+                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" >
+                    Categorie Prodotti
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a href="{% url 'sport' %}" class="dropdown-item" href="#">Sport</a></li>
+                    <li><a href="{% url 'giocattoli' %}" class="dropdown-item" href="#">Giocattoli</a></li>
+                    <li><a href="{% url 'elettrodomestici' %}" class="dropdown-item" href="#">Elettrodomestici</a></li>
+                    <li><a href="{% url 'libri' %}" class="dropdown-item" href="#">Libri</a></li>
+                </ul>
+            </div>
+
+            <form class="d-flex" role="search" action="/home/search" method="get">
+                <input class="form-control me-2" name="query" type="search" placeholder="Cerca Prodotto" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+
+        </div>
+
+    </nav>
+    <div class="container my-5 text-center" style="max-width:580px">
+        <h1>Elettrodomestici</h1>
+        <p class="lead">“C'è vero progresso solo quando i vantaggi di una nuova tecnologia diventano per tutti” <br> Henry Ford </p>
+    </div>
+
+    <div class="container" style="margin-left: 7% ">
+        <div class="row">
+            {% for product in products %}
+                {% if product.categoria.nome == "Elettrodomestico"  %}
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem; margin-bottom: 3rem">
+                        <img src="{{ product.immagine.url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title"> {{ product.nome }} </h5>
+                            <p class="card-text">€ {{ product.prezzo }}</p>
+                            {% if product.disponibilità == 0 %}
+                                <button class="btn btn-danger disabled">Non disponibile</button>
+                            {% else %}
+                                <a href="{% url 'accedi' %}" class="btn btn-primary">Acquista</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

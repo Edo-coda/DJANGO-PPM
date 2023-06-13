@@ -1,0 +1,51 @@
+{% extends 'ecommerce/common.html' %}
+
+{% block content %}
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/lg.png' %} " alt="" width="35" height="35" class="d-inline-block align-top">
+                Ecommerce Django
+            </a>
+        </div>
+    </nav>
+
+    <div class="container my-5 text-center" style="max-width:580px">
+        {% if error %}
+            <h1>Attenzione!</h1>
+            <p class="lead" style="color: red">{{ error }}</p>
+            <div class="col-12" style="margin-bottom: 48%">
+                <a href="{% url 'accedi' %}" type="button" class="btn btn-primary btn-lg"> Accedi </a>
+            </div>
+        {% else %}
+            <h1>Crea il tuo account!</h1>
+            <form class="row g-3" method="post" style="margin-top: 1%">{% csrf_token %}
+
+                <div class="form-floating mb-3 col-6">
+                    <input type="text" class="form-control" id="floatingInput" name="nome" placeholder="Nome">
+                    <label for="floatingInput">Nome</label>
+                </div>
+
+                <div class="form-floating mb-3 col-6">
+                    <input type="text" class="form-control" id="floatingInput" name="cognome" placeholder="Cognome">
+                    <label for="floatingInput">Cognome</label>
+                </div>
+
+                <div class="form-floating mb-3 col-12">
+                    <input type="email" class="form-control" id="floatingInput" name="email" placeholder="Email">
+                    <label for="floatingInput">Email</label>
+                </div>
+
+                <div class="form-floating mb-3 col-12">
+                    <input type="password" class="form-control" id="floatingInput" name="pw"placeholder="Password">
+                    <label for="floatingInput">Password</label>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success">Conferma</button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

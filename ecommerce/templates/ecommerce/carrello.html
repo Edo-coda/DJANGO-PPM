@@ -1,0 +1,86 @@
+{% extends 'ecommerce/common.html' %}
+
+{% block content %}
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'accesso' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/lg.png' %} " alt="" width="35" height="35" class="d-inline-block align-top">
+                Ecommerce Django
+            </a>
+
+            <div class="dropend">
+                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" >
+                    Categorie Prodotti
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a href="{% url 'sport_a' %}" class="dropdown-item" href="#">Sport</a></li>
+                    <li><a href="{% url 'giocattoli_a' %}" class="dropdown-item" href="#">Giocattoli</a></li>
+                    <li><a href="{% url 'elettrodomestici_a' %}" class="dropdown-item" href="#">Elettrodomestici</a></li>
+                    <li><a href="{% url 'libri_a' %}" class="dropdown-item" href="#">Libri</a></li>
+                </ul>
+            </div>
+
+            <form class="d-flex" role="search" action="/home/accesso/search" method="get" style="margin-left: 5%">
+                <input class="form-control me-2" name="query" type="search" placeholder="Cerca Prodotto" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+
+            <a style="margin-left: -3%" href="{% url 'ordini' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/ordine.png' %} " alt="" width="43" height="43" class="d-inline-block align-top">
+            </a>
+
+            <a style="margin-left: -7%; margin-right: 2%"href="{% url 'carrello' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/carrello.png' %} " alt="" width="40" height="40" class="d-inline-block align-top">
+            </a>
+
+        </div>
+
+    </nav>
+    <div class="container my-5 text-center" style="max-width:600px">
+        {% if not request.session.prodotto %}
+            <div style="margin-bottom: 22%">
+                <h1>Il tuo carrello è vuoto</h1>
+                <p class="lead">Esplora i numerosi prodotti del nostro catalogo, rimarrai sorpreso nello scoprire gli innumerevoli
+                vantaggi che il nostro sito offre. <br><br> Oppure <br> </p>
+                <h3>Verifica se hai un ordine in sospeso</h3>
+                <div class="row" style="margin-top: 3%; padding-left: 8%; padding-right: 8%">
+                    <a href="{% url 'ordine' %}" type="submit" class="btn btn-success btn-lg">Ordini in sospeso</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="container" style="margin-bottom: 50%">
+            <h1>Hai qualcosa nel tuo carrello </h1>
+            {% for p in request.session.prodotto %}
+                {% for product in products %}
+                    {% if product.nome == p %}
+                        <div class="row" style="border: 1px solid black; margin-top: 5%; padding-top: 1%; padding-bottom: 1%">
+                            <div class="col-2" >
+                                <img src="{{ product.immagine.url }}" class="card-img-top" alt="..." style="height: 60px; width: 65px">
+                            </div>
+                            <div class="col-4">
+                                <h5 class="card-title"> {{ product.nome }} </h5>
+                                <p class="card-text">€ {{ product.prezzo }}</p>
+                            </div>
+
+                            <div class="col-3">
+                                <h6 class="card-title"> Quantità </h6>
+                                <form method="post"> {% csrf_token %}
+                                    <input type="number" name="{{ product.nome }}" style="width: 70%" value="1" min="1" max="{{ product.disponibilità }}">
+
+                            </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-success" style="margin-top: 9%"> V </button>
+                                <button type="submit" name="elimina" class="btn btn-danger" value="{{ product.nome }}" style="margin-top: 9%"> X </button>
+                            </div>
+                                </form>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

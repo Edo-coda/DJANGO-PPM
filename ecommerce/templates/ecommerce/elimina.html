@@ -1,0 +1,49 @@
+{% extends 'ecommerce/common.html' %}
+
+{% block content %}
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'accesso' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/lg.png' %} " alt="" width="35" height="35" class="d-inline-block align-top">
+                Ecommerce Django
+            </a>
+
+            <div class="dropend">
+                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" >
+                    Categorie Prodotti
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a href="{% url 'sport_a' %}" class="dropdown-item" href="#">Sport</a></li>
+                    <li><a href="{% url 'giocattoli_a' %}" class="dropdown-item" href="#">Giocattoli</a></li>
+                    <li><a href="{% url 'elettrodomestici_a' %}" class="dropdown-item" href="#">Elettrodomestici</a></li>
+                    <li><a href="{% url 'libri_a' %}" class="dropdown-item" href="#">Libri</a></li>
+                </ul>
+            </div>
+
+            <form class="d-flex" role="search" action="/home/accesso/search" method="get" style="margin-left: 5%">
+                <input class="form-control me-2" name="query" type="search" placeholder="Cerca Prodotto" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+
+            <a style="margin-left: -3%" href="{% url 'ordini' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/ordine.png' %} " alt="" width="43" height="43" class="d-inline-block align-top">
+            </a>
+
+            <a style="margin-left: -7%; margin-right: 2%"href="{% url 'carrello' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/carrello.png' %} " alt="" width="40" height="40" class="d-inline-block align-top">
+            </a>
+
+        </div>
+
+    </nav>
+    <div class="container my-5 text-center" style="max-width:600px">
+        <div style="margin-bottom: 52%">
+            <h1>Ordine annullato</h1>
+            <p class="lead">Esplora i numerosi prodotti del nostro catalogo, rimarrai sorpreso nello scoprire gli innumerevoli
+                vantaggi che il nostro sito offre. </p>
+        </div>
+    </div>
+{% endblock %}

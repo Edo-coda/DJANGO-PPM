@@ -1,0 +1,63 @@
+{% extends 'ecommerce/common.html' %}
+
+{% block content %}
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                {% load static %}
+                <img src=" {% static 'ecommerce/lg.png' %} " alt="" width="35" height="35" class="d-inline-block align-top">
+                Ecommerce Django
+            </a>
+
+            <div class="dropend">
+                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" >
+                    Categorie Prodotti
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a href="{% url 'sport' %}" class="dropdown-item" href="#">Sport</a></li>
+                    <li><a href="{% url 'giocattoli' %}" class="dropdown-item" href="#">Giocattoli</a></li>
+                    <li><a href="{% url 'elettrodomestici' %}" class="dropdown-item" href="#">Elettrodomestici</a></li>
+                    <li><a href="{% url 'libri' %}" class="dropdown-item" href="#">Libri</a></li>
+                </ul>
+            </div>
+
+            <form class="d-flex" role="search" >
+                <input class="form-control me-2" name="query" type="search" placeholder="Cerca Prodotto" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+
+        </div>
+
+    </nav>
+    {% if object != None%}
+        <div class="container my-5 text-center" style="max-width:580px">
+            <h1>Risultati per "{{ object.nome }}"</h1>
+        </div>
+
+        <div class="container" style="padding-left: 34%; margin-top: -2%">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem; margin-bottom: 3rem">
+                        <img src="{{ object.immagine.url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title"> {{ object.nome }} </h5>
+                            <p class="card-text">€ {{ object.prezzo }}</p>
+                            {% if object.disponibilità == 0%}
+                                <button class="btn btn-danger disabled">Non disponibile</button>
+                            {% else %}
+                                <a href="{% url 'accedi' %}" class="btn btn-primary">Acquista</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container my-5 text-center" style="max-width:580px; padding-bottom: 19%">
+            <h1>Nessun prodotto trovato</h1>
+            <p class="lead"> Il prodotto che stai cercando ha forse un altro nome... <br>
+                Esplora il nostro catalogo per trovare ciò che fa per te
+            </p>
+        </div>
+    {% endif %}
+{% endblock %}
